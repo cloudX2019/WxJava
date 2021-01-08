@@ -15,6 +15,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 微信支付敏感信息加密
@@ -29,9 +31,23 @@ public class RsaCryptoUtil {
 
   public static void encryptFields(Object encryptObject, X509Certificate certificate) throws WxPayException {
     try {
-      encryptField(encryptObject, certificate);
+      encryptObject(encryptObject, certificate);
     } catch (Exception e) {
       throw new WxPayException("敏感信息加密失败", e);
+    }
+  }
+
+  private static void encryptObject(Object encryptObject, X509Certificate certificate) throws IllegalAccessException, IllegalBlockSizeException {
+    if(encryptObject instanceof Collection) {
+      for (Object object : (Collection) encryptObject) {
+        encryptField(object, certificate);
+      }
+    } else if (encryptObject.getClass().isArray()) {
+      for (Object object : (Object[]) encryptObject) {
+        encryptField(object, certificate);
+      }
+    } else {
+      encryptField(encryptObject, certificate);
     }
   }
 
@@ -54,7 +70,7 @@ public class RsaCryptoUtil {
           field.setAccessible(true);
           Object obj = field.get(encryptObject);
           if (obj != null) {
-            encryptField(field.get(encryptObject), certificate);
+            encryptObject(field.get(encryptObject), certificate);
           }
         }
       }
