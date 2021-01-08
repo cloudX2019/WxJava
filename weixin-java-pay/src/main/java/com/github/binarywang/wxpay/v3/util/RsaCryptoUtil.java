@@ -16,7 +16,6 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 微信支付敏感信息加密
