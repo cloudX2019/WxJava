@@ -30,23 +30,9 @@ public class RsaCryptoUtil {
 
   public static void encryptFields(Object encryptObject, X509Certificate certificate) throws WxPayException {
     try {
-      encryptObject(encryptObject, certificate);
+      encryptField(encryptObject, certificate);
     } catch (Exception e) {
       throw new WxPayException("敏感信息加密失败", e);
-    }
-  }
-
-  private static void encryptObject(Object encryptObject, X509Certificate certificate) throws IllegalAccessException, IllegalBlockSizeException {
-    if(encryptObject instanceof Collection) {
-      for (Object object : (Collection) encryptObject) {
-        encryptField(object, certificate);
-      }
-    } else if (encryptObject.getClass().isArray()) {
-      for (Object object : (Object[]) encryptObject) {
-        encryptField(object, certificate);
-      }
-    } else {
-      encryptField(encryptObject, certificate);
     }
   }
 
@@ -68,8 +54,18 @@ public class RsaCryptoUtil {
         } else {
           field.setAccessible(true);
           Object obj = field.get(encryptObject);
-          if (obj != null) {
-            encryptObject(field.get(encryptObject), certificate);
+          if (obj == null) {
+            continue;
+          }
+          if (obj instanceof Collection) {
+            Collection collection = (Collection) obj;
+            for (Object o : collection) {
+              if (o != null) {
+                encryptField(o, certificate);
+              }
+            }
+          } else {
+            encryptField(obj, certificate);
           }
         }
       }
