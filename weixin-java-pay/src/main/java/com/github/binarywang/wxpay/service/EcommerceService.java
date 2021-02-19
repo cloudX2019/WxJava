@@ -174,8 +174,9 @@ public interface EcommerceService {
    *
    * @param request 关闭普通订单请求
    * @throws WxPayException the wx pay exception
+   * @return
    */
-  void closePartnerTransactions(PartnerTransactionsCloseRequest request) throws WxPayException;
+  String closePartnerTransactions(PartnerTransactionsCloseRequest request) throws WxPayException;
 
   /**
    * <pre>
@@ -286,6 +287,18 @@ public interface EcommerceService {
    * @throws WxPayException the wx pay exception
    */
   ReturnOrdersResult returnOrders(ReturnOrdersRequest request) throws WxPayException;
+
+  /**
+   * <pre>
+   * 查询分账回退API
+   * 文档地址: https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/ecommerce/profitsharing/chapter3_3.shtml
+   * </pre>
+   *
+   * @param request 查询分账回退请求
+   * @return 返回数据 return orders result
+   * @throws WxPayException the wx pay exception
+   */
+  ReturnOrdersResult queryReturnOrders(ReturnOrdersQueryRequest request) throws WxPayException;
 
   /**
    * <pre>
