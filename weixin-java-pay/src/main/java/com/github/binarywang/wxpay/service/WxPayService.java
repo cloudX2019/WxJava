@@ -15,7 +15,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.Date;
 import java.util.Map;
 
@@ -155,11 +154,32 @@ public interface WxPayService {
   EcommerceService getEcommerceService();
 
   /**
+   * 获取微信支付智慧商圈服务类
+   *
+   * @return the business circle service
+   */
+  BusinessCircleService getBusinessCircleService();
+
+  /**
    * 获取微信支付通用媒体服务类
    *
    * @return the merchant media service
    */
   MerchantMediaService getMerchantMediaService();
+
+  /**
+   * 获取微信支付营销媒体服务类
+   *
+   * @return the marketing media service
+   */
+  MarketingMediaService getMarketingMediaService();
+
+  /**
+   * 获取微信支付营销代金券服务类
+   *
+   * @return the marketing favor service
+   */
+  MarketingFavorService getMarketingFavorService();
 
   /**
    * 设置企业付款服务类，允许开发者自定义实现类.
